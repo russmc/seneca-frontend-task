@@ -1,8 +1,14 @@
+:root {
+    --toggle-width: 900px;
+    --toggle-height: 80px;
+    --slider-width: calc(var(--toggle-width) / 2);
+}
+
 .switch {
     position: relative;
     display: inline-block;
-    width: 60px;
-    height: 34px;
+    width: var(--toggle-width);
+    height: var(--toggle-height);
 
     background-color: red;
 }
@@ -26,15 +32,15 @@
 .slider::before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
+    height: var(--toggle-height);
+    width: var(--slider-width);
+    left: 0;
+    bottom: 0;
 
-    background-color: white;
+    background-color: lightgray;
     transition: 0.2s;
 }
 
 input:checked + .slider::before {
-    transform: translateX(26px);
+    transform: translateX(var(--slider-width));
 }
