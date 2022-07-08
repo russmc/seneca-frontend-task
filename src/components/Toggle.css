@@ -44,3 +44,11 @@
 input:checked + .slider::before {
     transform: translateX(var(--slider-width));
 }
+
+.rounded {
+    border-radius: calc(var(--toggle-height) / 2)!important;
+}
+
+.slider.rounded:before {
+    border-radius: calc(var(--toggle-height) / 2)!important;
+}

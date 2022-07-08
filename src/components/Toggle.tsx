@@ -8,9 +8,9 @@ interface SwitchProps {
 
 function Switch({ isToggled, onToggle }: SwitchProps) {
     return (
-        <label className="switch">
+        <label className="switch rounded">
             <input type="checkbox" checked={isToggled} onChange={onToggle} />
-            <span className="slider" />
+            <span className="slider rounded" />
         </label>
     );
 }
