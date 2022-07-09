@@ -4,6 +4,15 @@
     --slider-width: calc(var(--toggle-width) / 2);
 }
 
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
 .switch {
     position: relative;
     display: inline-block;
