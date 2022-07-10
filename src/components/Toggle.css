@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@700&display=swap');
+
 :root {
     --toggle-width: 900px;
     --toggle-height: 80px;
@@ -5,6 +7,11 @@
 
     --slider-width: calc(var(--toggle-width) / 2);
     --slider-height: calc(var(--toggle-height));
+    --slider-columns: 2;
+
+    --font: Mulish;
+    --font-fallback: sans-serif;
+    --font-size: 1.5rem;
 }
 
 *, *::before, *::after {
@@ -14,6 +21,14 @@
 * {
     margin: 0;
     padding: 0;
+}
+
+.background-green {
+    background-color: green;
+}
+
+.background-red {
+    background-color: red;
 }
 
 .switch {
@@ -31,15 +46,13 @@
 
 .slider {
     position: absolute;
-    cursor: pointer;
-
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
 
     border: var(--toggle-border-width) solid lightgray;
-    background-color: red;
+    background-color: white;
 }
 
 .slider::before {
@@ -60,4 +73,26 @@ input:checked + .slider::before {
 
 .slider.rounded, .slider.rounded::before {
     border-radius: calc(var(--toggle-height) / 2);
+}
+
+.click-area {
+    cursor: pointer;
+}
+
+.options-container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+
+    display: grid;
+    grid-template-columns: repeat(var(--slider-columns), 1fr);
+    justify-items: stretch;
+    align-items: center;
+}
+
+.option {
+    font-family: var(--font), var(--font-fallback);
+    font-size: var(--font-size);
 }
