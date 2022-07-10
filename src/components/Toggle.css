@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@700&display=swap');
+
 :root {
     --toggle-width: 900px;
     --toggle-height: 80px;
@@ -5,6 +7,11 @@
 
     --slider-width: calc(var(--toggle-width) / 2);
     --slider-height: calc(var(--toggle-height));
+    --slider-columns: 2;
+
+    --font: Mulish;
+    --font-fallback: sans-serif;
+    --font-size: 1.5rem;
 }
 
 *, *::before, *::after {
@@ -70,11 +77,12 @@ input:checked + .slider::before {
     left: 0;
 
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(var(--slider-columns), 1fr);
     justify-items: stretch;
     align-items: center;
 }
 
 .option {
-    border: 2px solid black;
+    font-family: var(--font), var(--font-fallback);
+    font-size: var(--font-size);
 }
