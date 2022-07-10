@@ -23,6 +23,14 @@
     padding: 0;
 }
 
+.background-green {
+    background-color: green;
+}
+
+.background-red {
+    background-color: red;
+}
+
 .switch {
     position: relative;
     display: inline-block;
@@ -44,7 +52,7 @@
     bottom: 0;
 
     border: var(--toggle-border-width) solid lightgray;
-    background-color: red;
+    background-color: white;
 }
 
 .slider::before {

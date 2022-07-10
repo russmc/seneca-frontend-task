@@ -4,9 +4,11 @@ import ToggleSwitch from './components/Toggle';
 import Options from './options';
 
 function App() {
+  
+  // works with only two options at the moment
   const q1Options = new Options(
-    'q1 option a',
-    'q1 option b'
+    'q1 correct option',
+    'q1 incorrect option'
   )
   
   return (
