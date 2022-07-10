@@ -11,10 +11,10 @@ function Switch({ isToggled, onToggle, options }: SwitchProps) {
     return (
         <label className="switch">
             <input type="checkbox" checked={isToggled} onChange={onToggle} />
-            <span className="slider rounded" />
-            <div className="options-container">
-                { options && <div className="option">{options[0]}</div> }
-                { options && <div className="option">{options[1]}</div> }
+            <span className="slider rounded click-area" />
+            <div className="options-container click-area">
+                { options && <div className="option click-area">{options[0]}</div> }
+                { options && <div className="option click-area">{options[1]}</div> }
             </div>
         </label>
     );

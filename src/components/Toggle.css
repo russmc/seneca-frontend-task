@@ -38,8 +38,6 @@
 
 .slider {
     position: absolute;
-    cursor: pointer;
-
     top: 0;
     left: 0;
     right: 0;
@@ -67,6 +65,10 @@ input:checked + .slider::before {
 
 .slider.rounded, .slider.rounded::before {
     border-radius: calc(var(--toggle-height) / 2);
+}
+
+.click-area {
+    cursor: pointer;
 }
 
 .options-container {
