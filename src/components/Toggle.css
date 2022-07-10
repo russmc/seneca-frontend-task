@@ -21,9 +21,6 @@
     display: inline-block;
     width: var(--toggle-width);
     height: var(--toggle-height);
-
-    border: var(--toggle-border-width) solid lightgray;
-    background-color: red;
 }
 
 .switch input {
@@ -40,6 +37,9 @@
     left: 0;
     right: 0;
     bottom: 0;
+
+    border: var(--toggle-border-width) solid lightgray;
+    background-color: red;
 }
 
 .slider::before {
@@ -58,10 +58,6 @@ input:checked + .slider::before {
     transform: translateX(var(--slider-width));
 }
 
-.rounded {
-    border-radius: calc(var(--toggle-height) / 2);
-}
-
-.slider.rounded:before {
+.slider.rounded, .slider.rounded::before {
     border-radius: calc(var(--toggle-height) / 2);
 }
