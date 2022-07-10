@@ -61,3 +61,20 @@ input:checked + .slider::before {
 .slider.rounded, .slider.rounded::before {
     border-radius: calc(var(--toggle-height) / 2);
 }
+
+.options-container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: stretch;
+    align-items: center;
+}
+
+.option {
+    border: 2px solid black;
+}
