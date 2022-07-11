@@ -2,61 +2,51 @@ import React, {useEffect, useState} from "react";
 import './Toggle.css';
 import Options from '../options';
 
-interface SwitchProps {
-    isToggled: boolean;
-    onToggle: React.ChangeEventHandler<HTMLInputElement>;
-    options?: Array<string> | null;
+interface OptionComponentProps {
+    key: number;
+    isSelected: boolean;
+    selectHandler: React.ChangeEventHandler<HTMLInputElement>;
+    optionText: string;
 }
 
-function Switch({ isToggled, onToggle, options }: SwitchProps) {
+function OptionComponent({ key, isSelected, selectHandler, optionText }: OptionComponentProps) {
     return (
-        <label className="switch">
-            <input type="checkbox" checked={isToggled} onChange={onToggle} />
-            <span className="slider rounded click-area" />
-            <div className="options-container click-area">
-                { options?.map((option) => <div className="option click-area">{option}</div>) }
-            </div>
-        </label>
-    );
+        <div className="option">
+            <label htmlFor={`checkbox-option-${key}`} />
+            <input id={`checkbox-option-${key}`} type="checkbox" checked={isSelected} onChange={selectHandler} />
+            <div className="option-text">{optionText}</div>
+        </div>
+    )
 }
 
-interface ToggleSwitchProps {
+interface ToggleProps {
     options: Options;
 }
 
-export default function ToggleSwitch({ options }: ToggleSwitchProps) {
-    const [isToggled, setToggle] = useState<boolean>(false);
-    const [parsedOptions, setParsedOptions] = useState<Array<string> | null>(null);
+export default function Toggle({ options }: ToggleProps) {
+    const [selectedArray, setSelectedArray] = useState<Array<boolean>>(Array(options?.length).fill(false));
+    const [shuffledOptions, setShuffledOptions] = useState<Array<string> | null>(null);
 
     useEffect(() => {
-        setParsedOptions(options.shuffle())
+        setShuffledOptions(options.shuffle())
     }, [options])
 
-    function onToggle() {
-        setToggle(isToggled => !isToggled);
-        let currentOption: string;
-
-        if (parsedOptions) {
-            if (isToggled) {
-                currentOption = parsedOptions[0];
-            } else {
-                currentOption = parsedOptions[1];
-            }
-            if (options.correct.includes(currentOption)) {
-                document.body.classList.remove('background-red');
-                document.body.classList.add('background-green');
-            } else {
-                document.body.classList.remove('background-green');
-                document.body.classList.add('background-red');
-            }
-        }
-    }
-
-    return (
-        <Switch 
-            isToggled={isToggled} 
-            onToggle={onToggle}
-            options={parsedOptions}
-        />
+    return (  
+        <div className="toggle">
+            <div className="slider">
+                {shuffledOptions?.map((option, index) => 
+                    <OptionComponent 
+                        key={index} 
+                        isSelected={selectedArray[index]}
+                        selectHandler={() => {
+                            const newSelectedArray = Array(selectedArray?.length).fill(false)
+                            newSelectedArray[index] = true;
+                            setSelectedArray(newSelectedArray);
+                        }}
+                        optionText={option}    
+                    />
+                )}
+            </div>
+        </div>
     );
 }

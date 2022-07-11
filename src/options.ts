@@ -24,6 +24,10 @@ export default class Options {
         return this.arrayWrapper(this._incorrect)
     }
 
+    public get length() {
+        return this.correct.length + this.incorrect.length
+    }
+
     public shuffle() {
         // returns shuffled array of all options
         return [...this.correct, ...this.incorrect].sort((a, b) => 0.5 - Math.random())
