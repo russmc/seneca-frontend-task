@@ -3,11 +3,12 @@
 :root {
     --toggle-width: 900px;
     --toggle-height: 80px;
+    --toggle-margin: 10px;
     --toggle-border-width: 2px;
 
-    --slider-width: calc(var(--toggle-width) / 3);
-    --slider-height: calc(var(--toggle-height));
     --slider-columns: 3;
+    --slider-width: calc(var(--toggle-width) / var(--slider-columns));
+    --slider-height: var(--toggle-height);
 
     --font: Mulish;
     --font-fallback: sans-serif;
@@ -21,15 +22,14 @@
 * {
     margin: 0;
     padding: 0;
-    border: 1px solid black;
 }
 
-/* TODO: add margin around this, consider is it border box */
 .toggle {
     position: relative;
     display: inline-block;
     width: var(--toggle-width);
     height: var(--toggle-height);
+    margin: var(--toggle-margin);
 } 
 
 .slider {
@@ -45,7 +45,7 @@
     display: grid;
     grid-template-columns: repeat(var(--slider-columns), 1fr);
     justify-items: stretch;
-    align-items: center;
+    align-items: stretch;
 }
 
 .slider::before {
@@ -61,22 +61,25 @@
 }
 
 .option {
-    /* TODO: checkbox needs to fill area to be clickable and affect checked status? */
+    position: relative;
     cursor: pointer;
-    /* TODO: better way to center single item? */
-    display: grid;
-    grid-template-columns: 1fr;
-    justify-items: stretch;
+
+    display: flex;
+    justify-content: center;
     align-items: center;
 }
 
-.option input, .option label {
+.option input {
     opacity: 0;
     width: 0;
-    height: 0;
-}
+    height: 0; 
+} 
 
 .option-text {
     font-family: var(--font), var(--font-fallback);
     font-size: var(--font-size);
+}
+
+.slider.rounded, .slider.rounded::before {
+    border-radius: calc(var(--toggle-height) / 2);
 }

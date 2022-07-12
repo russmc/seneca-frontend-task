@@ -3,19 +3,18 @@ import './Toggle.css';
 import Options from '../options';
 
 interface OptionComponentProps {
-    key: number;
+    index: number;
     isSelected: boolean;
     selectHandler: React.ChangeEventHandler<HTMLInputElement>;
     optionText: string;
 }
 
-function OptionComponent({ key, isSelected, selectHandler, optionText }: OptionComponentProps) {
+function OptionComponent({ index, isSelected, selectHandler, optionText }: OptionComponentProps) {
     return (
-        <div className="option">
-            <label htmlFor={`checkbox-option-${key}`} />
-            <input id={`checkbox-option-${key}`} type="checkbox" checked={isSelected} onChange={selectHandler} />
+        <label htmlFor={`checkbox-option-${index}`} className="option">
+            <input id={`checkbox-option-${index}`} type="checkbox" checked={isSelected} onChange={selectHandler} />
             <div className="option-text">{optionText}</div>
-        </div>
+        </label>
     )
 }
 
@@ -33,10 +32,10 @@ export default function Toggle({ options }: ToggleProps) {
 
     return (  
         <div className="toggle">
-            <div className="slider">
+            <div className="slider rounded">
                 {shuffledOptions?.map((option, index) => 
                     <OptionComponent 
-                        key={index} 
+                        index={index} 
                         isSelected={selectedArray[index]}
                         selectHandler={() => {
                             const newSelectedArray = Array(selectedArray?.length).fill(false)
