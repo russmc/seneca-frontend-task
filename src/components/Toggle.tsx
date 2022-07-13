@@ -2,61 +2,74 @@ import React, {useEffect, useState} from "react";
 import './Toggle.css';
 import Options from '../options';
 
-interface SwitchProps {
-    isToggled: boolean;
-    onToggle: React.ChangeEventHandler<HTMLInputElement>;
-    options?: Array<string> | null;
+interface OptionComponentProps {
+    key: number;
+    index: number;
+    isSelected: boolean;
+    selectHandler: React.ChangeEventHandler<HTMLInputElement>;
+    optionText: string;
 }
 
-function Switch({ isToggled, onToggle, options }: SwitchProps) {
+function OptionComponent({ index, isSelected, selectHandler, optionText }: OptionComponentProps) {
     return (
-        <label className="switch">
-            <input type="checkbox" checked={isToggled} onChange={onToggle} />
-            <span className="slider rounded click-area" />
-            <div className="options-container click-area">
-                { options?.map((option) => <div className="option click-area">{option}</div>) }
-            </div>
+        <label htmlFor={`checkbox-option-${index}`} className="option">
+            <input id={`checkbox-option-${index}`} type="checkbox" checked={isSelected} onChange={selectHandler} />
+            <div className="option-text">{optionText}</div>
         </label>
-    );
+    )
 }
 
-interface ToggleSwitchProps {
+interface ToggleProps {
     options: Options;
 }
 
-export default function ToggleSwitch({ options }: ToggleSwitchProps) {
-    const [isToggled, setToggle] = useState<boolean>(false);
-    const [parsedOptions, setParsedOptions] = useState<Array<string> | null>(null);
+export default function Toggle({ options }: ToggleProps) {
+    const [selectedArray, setSelectedArray] = useState<Array<boolean>>(Array(options?.length).fill(false));
+    const [shuffledOptions, setShuffledOptions] = useState<Array<string> | null>(null);
+    const [sliderPosition, setSliderPosition] = useState<number>(0);
+
+    const slider = document.querySelector<HTMLElement>('.slider')!;
+    const sliderWidth = getSliderWidth();
 
     useEffect(() => {
-        setParsedOptions(options.shuffle())
+        setShuffledOptions(options.shuffle())
     }, [options])
 
-    function onToggle() {
-        setToggle(isToggled => !isToggled);
-        let currentOption: string;
-
-        if (parsedOptions) {
-            if (isToggled) {
-                currentOption = parsedOptions[0];
-            } else {
-                currentOption = parsedOptions[1];
-            }
-            if (options.correct.includes(currentOption)) {
-                document.body.classList.remove('background-red');
-                document.body.classList.add('background-green');
-            } else {
-                document.body.classList.remove('background-green');
-                document.body.classList.add('background-red');
-            }
-        }
+    function selectHandler(index: number) {
+        const newSelectedArray = Array(selectedArray?.length).fill(false);
+        newSelectedArray[index] = true;
+        setSelectedArray(newSelectedArray);
+        translateSlider(index);
     }
 
-    return (
-        <Switch 
-            isToggled={isToggled} 
-            onToggle={onToggle}
-            options={parsedOptions}
-        />
+    function getSliderWidth() {
+        const sliderWidth = window.getComputedStyle(slider).width.slice(0, -2);
+        return Number(sliderWidth);
+    }
+
+    function translateSlider(desiredSliderPosition: number) {
+        if(slider) {
+            slider.style.left = `${sliderWidth * desiredSliderPosition}px`;
+        }
+        setSliderPosition(desiredSliderPosition);
+    }
+
+    return (  
+        <div className="toggle">
+            <div className="slider rounded"></div>
+            <div className="slider-row rounded">
+                {shuffledOptions?.map((option, index) => 
+                    <OptionComponent 
+                        key={index}
+                        index={index} 
+                        isSelected={selectedArray[index]}
+                        selectHandler={() => {
+                            selectHandler(index);
+                        }}
+                        optionText={option}    
+                    />
+                )}
+            </div>
+        </div>
     );
 }
