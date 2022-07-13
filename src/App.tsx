@@ -7,8 +7,11 @@ function App() {
   
   // works with only two options at the moment
   const q1Options = new Options(
-    'q1 correct option',
-    'q1 incorrect option'
+    'correct',
+    [
+      'incorrect',
+      'incorrect',
+    ]
   )
   
   return (

@@ -3,11 +3,12 @@
 :root {
     --toggle-width: 900px;
     --toggle-height: 80px;
+    --toggle-margin: 10px;
     --toggle-border-width: 2px;
 
-    --slider-width: calc(var(--toggle-width) / 2);
-    --slider-height: calc(var(--toggle-height));
-    --slider-columns: 2;
+    --slider-columns: 3;
+    --slider-width: calc(var(--toggle-width) / var(--slider-columns));
+    --slider-height: var(--toggle-height);
 
     --font: Mulish;
     --font-fallback: sans-serif;
@@ -23,76 +24,60 @@
     padding: 0;
 }
 
-.background-green {
-    background-color: green;
-}
-
-.background-red {
-    background-color: red;
-}
-
-.switch {
+.toggle {
     position: relative;
     display: inline-block;
     width: var(--toggle-width);
     height: var(--toggle-height);
-}
-
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
+    margin: var(--toggle-margin);
+} 
 
 .slider {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-
-    border: var(--toggle-border-width) solid lightgray;
-    background-color: white;
-}
-
-.slider::before {
-    position: absolute;
-    content: "";
+    position: relative;
     height: var(--slider-height);
     width: var(--slider-width);
-    left: calc(-1 * var(--toggle-border-width));
-    bottom: calc(-1 * var(--toggle-border-width));
+    left: 0;
+    bottom: 0;
 
     background-color: lightgray;
     transition: 0.2s;
 }
 
-input:checked + .slider::before {
-    transform: translateX(var(--slider-width));
-}
-
-.slider.rounded, .slider.rounded::before {
-    border-radius: calc(var(--toggle-height) / 2);
-}
-
-.click-area {
-    cursor: pointer;
-}
-
-.options-container {
+.slider-row {
     position: absolute;
-    height: 100%;
     width: 100%;
+    height: 100%;
     top: 0;
     left: 0;
+
+    border: var(--toggle-border-width) solid lightgray;
 
     display: grid;
     grid-template-columns: repeat(var(--slider-columns), 1fr);
     justify-items: stretch;
-    align-items: center;
+    align-items: stretch;
 }
 
 .option {
+    position: relative;
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.option input {
+    opacity: 0;
+    width: 0;
+    height: 0; 
+} 
+
+.option-text {
     font-family: var(--font), var(--font-fallback);
     font-size: var(--font-size);
+}
+
+.slider-row.rounded, .slider.rounded {
+    border-radius: calc(var(--toggle-height) / 2);
 }
