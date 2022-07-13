@@ -70,7 +70,6 @@ export default function Toggle({ options }: ToggleProps) {
                     />
                 )}
             </div>
-            
         </div>
     );
 }
