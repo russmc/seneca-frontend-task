@@ -26,7 +26,7 @@
 
 .toggle {
     position: relative;
-    display: inline-block;
+    display: block;
     width: var(--toggle-width);
     height: var(--toggle-height);
     margin: var(--toggle-margin);
