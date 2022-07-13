@@ -16,7 +16,7 @@ function OptionComponent({ index, isSelected, selectHandler, optionText }: Optio
             <input id={`checkbox-option-${index}`} type="checkbox" checked={isSelected} onChange={selectHandler} />
             <div className="option-text">{optionText}</div>
         </label>
-    )
+    );
 }
 
 interface ToggleProps {
@@ -28,12 +28,9 @@ export default function Toggle({ options }: ToggleProps) {
     const [shuffledOptions, setShuffledOptions] = useState<Array<string> | null>(null);
     const [sliderPosition, setSliderPosition] = useState<number>(0);
 
-    const slider = document.querySelector<HTMLElement>('.slider')!;
-    const sliderWidth = getSliderWidth();
-
     useEffect(() => {
         setShuffledOptions(options.shuffle())
-    }, [options])
+    }, [options]);
 
     function selectHandler(index: number) {
         const newSelectedArray = Array(selectedArray?.length).fill(false);
@@ -43,13 +40,14 @@ export default function Toggle({ options }: ToggleProps) {
     }
 
     function getSliderWidth() {
-        const sliderWidth = window.getComputedStyle(slider).width.slice(0, -2);
+        const sliderWidth = window.getComputedStyle(document.querySelector<Element>('.slider')!).width.slice(0, -2);
         return Number(sliderWidth);
     }
 
     function translateSlider(desiredSliderPosition: number) {
+        const slider = document.querySelector<HTMLElement>('.slider')!;
         if(slider) {
-            slider.style.left = `${sliderWidth * desiredSliderPosition}px`;
+            slider.style.left = `${getSliderWidth() * desiredSliderPosition}px`;
         }
         setSliderPosition(desiredSliderPosition);
     }
