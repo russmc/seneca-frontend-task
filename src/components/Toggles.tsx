@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import {useState} from "react";
 import Options from '../options';
 import Toggle from './Toggle';
 
@@ -8,26 +8,26 @@ interface TogglesProps {
 
 export default function Toggles({ optionsArray }: TogglesProps) {
     const [lockedArray, setLockedArray] = useState<Array<boolean>>(Array(optionsArray.length).fill(false));
-
-    const [ mainHues, mainSats, mainLights ] = generateColorArray(optionsArray.length, 70, 60);
-    const [ gradHues, gradSats, gradLights ] = generateColorArray(optionsArray.length, 50, 40);
+    const [ mainHues, mainSats, mainLights ] = generateColorArray(optionsArray.length + 1, 70, 60);
+    const [ gradHues, gradSats, gradLights ] = generateColorArray(optionsArray.length + 1, 50, 40);
 
     function lockToggle(toggleIndex: number) {
         setLockedArray(prevLockedArray => [...prevLockedArray.slice(0, toggleIndex), true, ...prevLockedArray.slice(toggleIndex + 1)]);
         const nCorrect: number = lockedArray.filter(lock => lock === true).length;
 
         const stylesheet = document.styleSheets[0];
-        if (nCorrect > 0) {
-            stylesheet.deleteRule(0);
-        }
+        console.log(stylesheet.cssRules[0]);
+        stylesheet.deleteRule(0);
         stylesheet.insertRule(`
             body {
                 background-image: linear-gradient(
-                    hsl(${mainHues[nCorrect]}, ${mainSats[nCorrect]}%, ${mainLights[nCorrect]}%), 
-                    hsl(${gradHues[nCorrect]}, ${gradSats[nCorrect]}%, ${gradLights[nCorrect]}%));
+                    hsl(${mainHues[nCorrect + 1]}, ${mainSats[nCorrect + 1]}%, ${mainLights[nCorrect + 1]}%), 
+                    hsl(${gradHues[nCorrect + 1]}, ${gradSats[nCorrect + 1]}%, ${gradLights[nCorrect + 1]}%));
                     background-attachment: fixed;
             }`
         );
+        console.log(stylesheet.title);
+        console.log(stylesheet.cssRules[0]);
     }
 
     return (
