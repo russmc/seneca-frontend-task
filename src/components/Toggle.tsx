@@ -4,39 +4,51 @@ import Options from '../options';
 
 interface OptionComponentProps {
     key: number;
-    index: number;
+    toggleIndex: number;
+    optionIndex: number;
     isSelected: boolean;
     selectHandler: React.ChangeEventHandler<HTMLInputElement>;
     optionText: string;
 }
 
-function OptionComponent({ index, isSelected, selectHandler, optionText }: OptionComponentProps) {
+function OptionComponent({ toggleIndex, optionIndex, isSelected, selectHandler, optionText }: OptionComponentProps) {
     return (
-        <label htmlFor={`checkbox-option-${index}`} className="option">
-            <input id={`checkbox-option-${index}`} type="checkbox" checked={isSelected} onChange={selectHandler} />
+        <label htmlFor={`q${toggleIndex}-checkbox-option${optionIndex}`} className="option">
+            <input id={`q${toggleIndex}-checkbox-option${optionIndex}`} type="checkbox" checked={isSelected} onChange={selectHandler} />
             <div className="option-text">{optionText}</div>
         </label>
     );
 }
 
 interface ToggleProps {
+    key: number;
+    toggleIndex: number;
     options: Options;
+    lockToggle: CallableFunction;
 }
 
-export default function Toggle({ options }: ToggleProps) {
-    const [selectedArray, setSelectedArray] = useState<Array<boolean>>(Array(options?.length).fill(false));
-    const [shuffledOptions, setShuffledOptions] = useState<Array<string> | null>(null);
+export default function Toggle({ toggleIndex, options, lockToggle }: ToggleProps) {
+    const [selectedArray, setSelectedArray] = useState<Array<boolean>>(Array(options.length).fill(false));
+    const [shuffledOptions, setShuffledOptions] = useState<Array<string>>(options.shuffle());
     const [sliderPosition, setSliderPosition] = useState<number>(0);
+    const [locked, setLocked] = useState<boolean>(false);
 
     useEffect(() => {
-        setShuffledOptions(options.shuffle())
+        setShuffledOptions(options.shuffle());
+        
     }, [options]);
 
-    function selectHandler(index: number) {
-        const newSelectedArray = Array(selectedArray?.length).fill(false);
-        newSelectedArray[index] = true;
-        setSelectedArray(newSelectedArray);
-        translateSlider(index);
+    function selectHandler(optionIndex: number) {
+        if (!locked) {
+            const newSelectedArray = Array(selectedArray?.length).fill(false);
+            newSelectedArray[optionIndex] = true;
+            setSelectedArray(newSelectedArray);
+            if (options.correct.includes(shuffledOptions[optionIndex])) {
+                lockToggle(toggleIndex);
+                setLocked(true);
+            }
+            translateSlider(optionIndex);
+        }
     }
 
     function getSliderWidth() {
@@ -45,21 +57,24 @@ export default function Toggle({ options }: ToggleProps) {
     }
 
     function translateSlider(desiredSliderPosition: number) {
-        const slider = document.querySelector<HTMLElement>('.slider')!;
+        const slider = document.getElementById(`slider-${toggleIndex}`)!;
         if(slider) {
-            slider.style.left = `${getSliderWidth() * desiredSliderPosition}px`;
+            if (sliderPosition !== desiredSliderPosition) {
+                slider.style.left = `${getSliderWidth() * desiredSliderPosition}px`;
+            }
         }
         setSliderPosition(desiredSliderPosition);
     }
 
     return (  
         <div className="toggle">
-            <div className="slider rounded"></div>
+            <div id={`slider-${toggleIndex}`} className='slider rounded'></div>
             <div className="slider-row rounded">
                 {shuffledOptions?.map((option, index) => 
                     <OptionComponent 
                         key={index}
-                        index={index} 
+                        toggleIndex={toggleIndex}
+                        optionIndex={index} 
                         isSelected={selectedArray[index]}
                         selectHandler={() => {
                             selectHandler(index);
