@@ -24,22 +24,31 @@ interface ToggleProps {
     key: number;
     toggleIndex: number;
     options: Options;
+    lockToggle: CallableFunction;
 }
 
-export default function Toggle({ toggleIndex, options }: ToggleProps) {
-    const [selectedArray, setSelectedArray] = useState<Array<boolean>>(Array(options?.length).fill(false));
-    const [shuffledOptions, setShuffledOptions] = useState<Array<string> | null>(null);
+export default function Toggle({ toggleIndex, options, lockToggle }: ToggleProps) {
+    const [selectedArray, setSelectedArray] = useState<Array<boolean>>(Array(options.length).fill(false));
+    const [shuffledOptions, setShuffledOptions] = useState<Array<string>>(options.shuffle());
     const [sliderPosition, setSliderPosition] = useState<number>(0);
+    const [locked, setLocked] = useState<boolean>(false);
 
     useEffect(() => {
         setShuffledOptions(options.shuffle());
+        
     }, [options]);
 
     function selectHandler(optionIndex: number) {
-        const newSelectedArray = Array(selectedArray?.length).fill(false);
-        newSelectedArray[optionIndex] = true;
-        setSelectedArray(newSelectedArray);
-        translateSlider(optionIndex);
+        if (!locked) {
+            const newSelectedArray = Array(selectedArray?.length).fill(false);
+            newSelectedArray[optionIndex] = true;
+            setSelectedArray(newSelectedArray);
+            if (options.correct.includes(shuffledOptions[optionIndex])) {
+                lockToggle(toggleIndex);
+                setLocked(true);
+            }
+            translateSlider(optionIndex);
+        }
     }
 
     function getSliderWidth() {
@@ -50,7 +59,9 @@ export default function Toggle({ toggleIndex, options }: ToggleProps) {
     function translateSlider(desiredSliderPosition: number) {
         const slider = document.getElementById(`slider-${toggleIndex}`)!;
         if(slider) {
-            slider.style.left = `${getSliderWidth() * desiredSliderPosition}px`;
+            if (sliderPosition !== desiredSliderPosition) {
+                slider.style.left = `${getSliderWidth() * desiredSliderPosition}px`;
+            }
         }
         setSliderPosition(desiredSliderPosition);
     }

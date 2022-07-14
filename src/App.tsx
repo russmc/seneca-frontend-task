@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import ToggleSwitch from './components/Toggle';
+import Toggles from './components/Toggles';
 import Options from './options';
 
 function App() {
@@ -30,12 +30,12 @@ function App() {
       'q3incorrect',
     ]
   )
+
+  const optionsArray = [q1Options, q2Options, q3Options];
   
   return (
     <div className="App">
-      <ToggleSwitch key={1} toggleIndex={1} options={q1Options} />
-      <ToggleSwitch key={2} toggleIndex={2} options={q2Options} />
-      <ToggleSwitch key={3} toggleIndex={3} options={q3Options} />
+      <Toggles optionsArray={optionsArray}/>
     </div>
   );
 }
