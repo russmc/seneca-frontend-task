@@ -52,8 +52,8 @@ export default function Toggle({ toggleIndex, options, lockToggle }: ToggleProps
     }
 
     function getSliderWidth() {
-        const sliderWidth = window.getComputedStyle(document.querySelector<Element>('.slider')!).width.slice(0, -2);
-        return Number(sliderWidth);
+        const sliderRowWidth = window.getComputedStyle(document.querySelector<Element>('.slider-row')!).width.slice(0, -2);
+        return Number(sliderRowWidth) / options.length;
     }
 
     function translateSlider(desiredSliderPosition: number) {
@@ -66,10 +66,18 @@ export default function Toggle({ toggleIndex, options, lockToggle }: ToggleProps
         setSliderPosition(desiredSliderPosition);
     }
 
+    const sliderStyles = {
+        '--slider-columns': options.length, 
+    } as React.CSSProperties;
+
     return (  
         <div className="toggle">
-            <div id={`slider-${toggleIndex}`} className='slider rounded'></div>
-            <div className="slider-row rounded">
+            <div 
+                id={`slider-${toggleIndex}`}
+                className='slider rounded'
+                style={sliderStyles}
+            ></div>
+            <div className="slider-row rounded" style={sliderStyles}>
                 {shuffledOptions?.map((option, index) => 
                     <OptionComponent 
                         key={index}

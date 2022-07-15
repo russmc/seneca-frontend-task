@@ -6,8 +6,6 @@
     --toggle-margin: 10px;
     --toggle-border-width: 2px;
 
-    --slider-columns: 3;
-    --slider-width: calc(var(--toggle-width) / var(--slider-columns));
     --slider-height: var(--toggle-height);
 
     --font: Mulish;
@@ -35,7 +33,7 @@
 .slider {
     position: relative;
     height: var(--slider-height);
-    width: var(--slider-width);
+    width: calc(var(--toggle-width) / var(--slider-columns));
     left: 0;
     bottom: 0;
 

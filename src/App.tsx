@@ -11,7 +11,6 @@ function App() {
     'q1correct',
     [
       'q1incorrect',
-      'q1incorrect',
     ]
   )
 
@@ -28,10 +27,21 @@ function App() {
     [
       'q3incorrect',
       'q3incorrect',
+      'q3incorrect',
     ]
   )
 
-  const optionsArray = [q1Options, q2Options, q3Options];
+  const q4Options = new Options(
+    'q3correct',
+    [
+      'q3incorrect',
+      'q3incorrect',
+      'q3incorrect',
+      'q3incorrect',
+    ]
+  )
+
+  const optionsArray = [q1Options, q2Options, q3Options, q4Options];
   
   return (
     <div className="App">
