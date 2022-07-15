@@ -16,7 +16,6 @@ export default function Toggles({ optionsArray }: TogglesProps) {
         const nCorrect: number = lockedArray.filter(lock => lock === true).length;
 
         const stylesheet = document.styleSheets[0];
-        console.log(stylesheet.cssRules[0]);
         stylesheet.deleteRule(0);
         stylesheet.insertRule(`
             body {
@@ -26,8 +25,6 @@ export default function Toggles({ optionsArray }: TogglesProps) {
                     background-attachment: fixed;
             }`
         );
-        console.log(stylesheet.title);
-        console.log(stylesheet.cssRules[0]);
     }
 
     return (
