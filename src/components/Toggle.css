@@ -11,6 +11,10 @@
     --font: Mulish;
     --font-fallback: sans-serif;
     --font-size: 1.5rem;
+
+    --slider-color: lightgrey;
+    --unselected-color: darkslategray;
+    --selected-color: slategrey;
 }
 
 *, *::before, *::after {
@@ -37,8 +41,8 @@
     left: 0;
     bottom: 0;
 
-    background-color: lightgray;
-    transition: 0.2s;
+    background-color: var(--slider-color);
+    transition: 0.4s;
 }
 
 .slider-row {
@@ -48,7 +52,7 @@
     top: 0;
     left: 0;
 
-    border: var(--toggle-border-width) solid lightgray;
+    border: var(--toggle-border-width) solid var(--slider-color);
 
     display: grid;
     grid-template-columns: repeat(var(--slider-columns), 1fr);
@@ -69,11 +73,22 @@
     opacity: 0;
     width: 0;
     height: 0; 
-} 
+}
 
 .option-text {
     font-family: var(--font), var(--font-fallback);
     font-size: var(--font-size);
+    color: var(--unselected-color);
+
+    transition: 0.4s;
+}
+
+.option input:checked + .option-text {
+    color: var(--selected-color);
+}
+
+.option:hover .option-text {
+    color: white;
 }
 
 .slider-row.rounded, .slider.rounded {
